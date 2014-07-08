@@ -1,0 +1,127 @@
+{% load static %}
+{% load tags%}
+
+<html>
+  <head>
+    <link rel="stylesheet" href="{% get_static_prefix %}css/baseStyle.css" type="text/css" media="screen"/>
+    <title>{% block title %}Note Taker{% endblock %}</title>
+    <script type="text/javascript">
+      var i;
+      for (i = 0; (i < document.forms.length); i++) {
+        document.forms[i].reset();
+      }
+    </script>
+  </head>
+
+  <body onLoad="clearForms()", onUnload="clearForms()">
+      <a href="/notes"><div id="header">{% block header %}Note Taker{% endblock %}</div></a>
+
+      <div class="main">
+      {% block main %}
+
+      {% comment %}
+      <!-- <form method="post" id="newNoteForm" action=""> -->
+      <!-- 	{% csrf_token %} -->
+      <!-- 	<label for="urlInput">URL:</label> -->
+      <!-- 	<input type="text" name="urlInput" value="" class="textField"/> -->
+      <!-- 	<label for="descriptionInput">Description:</label> -->
+      <!-- 	<input type="text" name="descriptionInput" value="" class="textField"/> -->
+      <!-- 	<input type="submit" name="newNoteSubmit" value="OK" class="button"/> -->
+      <!-- </form> -->
+      {% endcomment %}
+
+      <form method="post" class="newNoteForm" action="">
+	<h1>New note</h1>
+	{% csrf_token %}
+	{% for field in newNoteForm %}
+	  <div class="newNoteInput">
+	    <div class="errorMessage">{{ field.errors }}</div>
+	    <div class="inputLabel">{{ field.label }}:</div>{{ field }}
+	  </div>
+	{% endfor %}
+	<input type="submit" name="newNoteSubmit" value="OK" class="submitButton"/>
+      </form>
+
+    <div id="notFormPart">
+    <h1>Latest notes</h1>
+
+    <ul id="notesList">
+    {% for note in notes.object_list %}
+      {% comment %}
+    <!--   {% if latest_notes_list%} -->
+    <!--     {% for note in latest_notes_list %} -->
+      {% endcomment %}
+      <li>
+      	<div id="noteListElement">
+      	  <div id="noteListElementDescription">
+      	    <a href="{{ note.url }}">{{ note.description }}
+      	      <!-- <a href="/notes/delete/{{ note.id }}" class="delete" name="delete">delete</a> -->
+	      <form method="post" class="deleteForm" action="">
+		{% csrf_token %}
+		<button type="submit" name="deleteSubmit" value="{{ note.pk }}" class="delete" >Delete</button>
+	      </form>
+
+      	  <table id="noteListElementTable">
+      	    <tr>
+      	      <td>
+      		<a href="/notes/{{ note.id }}/" class="infoLink">INFO</a>
+      	      </td>
+      	      <td>
+      		{% if note.cathegory %}
+      		<a href="/notes/cathegory/{{ note.cathegory }}" class="cathegory">{{ note.cathegory }}</a>
+      		{% else %}
+      	          <div class="cathegory">---</div>
+      		{% endif %}
+      	      </td>
+      	      <td>
+      	      	{% if note.rating %}
+      	      	<a href="/notes/rating/{{ note.rating }}" class="info" style="width: {{ note.rating|mul:10 }}">{{ note.rating }}</a>
+      	      	{% else %}
+      	          <div class="info" style="display: inline">---</div>
+      	      	{% endif %}
+      	      </td>
+      	    </tr>
+      	  </table>
+	  </a>
+      	  </div>
+      	</div>
+      </li>
+        {% endfor %}
+    </ul>
+
+    {% comment %}
+    <!-- {% else %} -->
+    <!--   <p>No notes available.</p> -->
+    <!-- {% endif %} -->
+
+    <!-- </div> -->
+    <!-- {% endfor %} -->
+    {% endcomment %}
+
+      <div class="totalNotes">{{ latest_notes_list|length }} notes</div>
+
+	<table class="pagination">
+	  <tr>
+	    {% if notes.has_previous %}
+	    <td class="paginationNavigation">
+	      <a href="?page={{ notes.previous_page_number }}">PREV</a>
+	    </td>
+	    {% endif %}
+	  <td class="paginationCurrent">
+	    {{ notes.number }} / {{ notes.paginator.num_pages }}
+	  </td>
+	  {% if notes.has_next %}
+	  <td class="paginationNavigation">
+	    <a href="?page={{ notes.next_page_number }}">NEXT</a>
+	    {% endif %}
+	  </td>
+	  </tr>
+	</table>
+
+
+  {% endblock %}
+  </div>
+
+  </body>
+</html>
+

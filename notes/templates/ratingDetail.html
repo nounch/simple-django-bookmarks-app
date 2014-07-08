@@ -1,0 +1,24 @@
+{% extends "notesBase.html" %}
+
+{% block title %}Rating detail{% endblock %}
+
+{% block header %}Rating detail{% endblock %}
+
+{% block main %}
+
+<div id="notFormPart">
+
+<h1>Rating detail</h1>
+<h2>Rating</h2>
+{{ rating }}
+<h2>Rated notes</h2>
+<ul>
+  {% for note in rated_notes %}
+    <li>{{ note.description }}</li>
+  {% endfor %}
+</ul>
+
+</div>
+
+{% endblock %}
+

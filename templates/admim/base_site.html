@@ -1,0 +1,29 @@
+<!-- {% extends "admin/base.html" %} -->
+<!-- {% load i18n %} -->
+
+<!-- {% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %} -->
+
+<!-- {% block branding %} -->
+<!-- <h1 id="site-name">{% trans 'SOMETHING' %}</h1> -->
+<!-- {% endblock %} -->
+
+<!-- {% block nav-global %}{% endblock %} -->
+
+
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Some Organisation' %}{% endblock %}
+
+{% block branding %}
+<style type="text/css">
+  #header
+  {
+    /* your style here */
+  }
+</style>
+<h1 id="site-name">{% trans 'Organisation Website' %}</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+

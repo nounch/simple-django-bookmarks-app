@@ -1,0 +1,27 @@
+{% extends "notesBase.html" %}
+
+{% block title %}Cathegory detail{% endblock %}
+
+{% block header %}Cathegory detail{% endblock %}
+
+{% block main %}
+
+<div id="notFormPart">
+
+<h1>Cathegory detail</h1>
+<h2>Label</h2>
+<p>{{ cathegory_label }}</p>
+<h2>Description</h2>
+<p>{{ cathegory_description }}</p>
+<h2>Notes with this cathegory</h2>
+<ul>
+{% for note in cathegorized_notes %}
+  <li>{{ note }}</li>
+{% endfor  %}
+</ul>
+
+</div>
+
+{% endblock %}
+
+

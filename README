@@ -1,0 +1,3 @@
+The page with the latest todos is accessible through the following URL:
+http://127.0.0.1:8000/notes/?page=1
+
